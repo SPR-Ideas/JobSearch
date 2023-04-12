@@ -7,22 +7,24 @@ namespace Job.Controllers
         [HttpGet]
         public IActionResult Index(int Id)
         {
-
             Console.WriteLine(Id);
             return View();
-        
         }
-
 
         [HttpPost]
         public IActionResult Index( Login fd)
         {
-            Console.WriteLine(fd.username);
-            Console.WriteLine(fd.password);
+            if(fd.CheckPassword()){
+                return View("Admin");
+            }
 
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Admin(){
+            return View();
+        }
 
     }
 }
