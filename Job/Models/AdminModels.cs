@@ -43,4 +43,4 @@ namespace Job.Models
         }
         }
 
-        }
+}

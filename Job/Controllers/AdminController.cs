@@ -22,7 +22,11 @@ namespace Job.Controllers
         }
 
         [HttpGet]
-        public IActionResult Admin(){
+        public IActionResult Admin(int delete,int Id){
+            if(delete==1 &&  Id != null){
+                DeleteJobRole jr = new DeleteJobRole();
+                jr.DeleteJob(Id);
+            }
             AdminModels jd = new AdminModels();
             jd.fetch();
             ViewBag.Message = jd.JobList;

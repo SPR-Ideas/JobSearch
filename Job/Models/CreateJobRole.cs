@@ -14,8 +14,8 @@ namespace Job.Models
             public string experience {get;set;}
 
             public void addJob(){
-                
-                try{
+
+            try{
                 SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
                 connection.Open();
                 string cmd = "";
@@ -31,6 +31,25 @@ namespace Job.Models
                 Console.WriteLine(e.Message);
             } 
             }
+    }
+
+    public class DeleteJobRole{
+        public void DeleteJob(int id){
+            try{
+                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                connection.Open();
+                string cmd = $"Delete from job_details where job_id={id}";
+                
+                SqlCommand command = new SqlCommand(cmd,connection);
+                int row = command.ExecuteNonQuery();
+                if(row==1){Console.WriteLine("Job Deleted");}
+                connection.Close();
+                }
+            
+            catch(SqlException e){
+                Console.WriteLine(e.Message);
+            } 
+        }
     }
 
 }

@@ -61,6 +61,7 @@
             <td>Package</td>
             <td>location</td>
             <td>Experienced Required</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
@@ -70,7 +71,8 @@
                 <td>@job.company</td>
                 <td>@job.package</td>
                 <td>@job.location</td>
-                <td>@job.experience</td>
+                <td>@job.experience yrs</td>
+                <td><a class="btn btn-outline-danger" href="?delete=1&id=@job.Id"> Delete</a></td>
             </tr>
         }
     </tbody>
