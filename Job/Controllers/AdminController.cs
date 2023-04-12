@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Job.Models;
+
 namespace Job.Controllers
 {
     public class AdminController : Controller
@@ -17,12 +18,25 @@ namespace Job.Controllers
             if(fd.CheckPassword()){
                 return View("Admin");
             }
-
             return View();
         }
 
         [HttpGet]
         public IActionResult Admin(){
+            AdminModels jd = new AdminModels();
+            jd.fetch();
+            ViewBag.Message = jd.JobList;
+            return View();
+        }
+        [HttpPost]
+        
+        public IActionResult Admin(CreateJobRole jr ){
+            jr.addJob();
+            
+            AdminModels jd = new AdminModels();
+            jd.fetch();
+            ViewBag.Message = jd.JobList;
+
             return View();
         }
 
