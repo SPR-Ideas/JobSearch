@@ -1,7 +1,19 @@
 IF Exists(
     SELECT * from sysobjects 
-    where name = 'UserLogin' and xtype='U'
+    where name = 'USERLOGIN' and xtype='U'
 )Drop TABLE USERLOGIN
+
+IF Exists(
+    SELECT * from sysobjects 
+    where name = 'JOB_DETAILS' and xtype='U'
+)Drop TABLE JOB_DETAILS
+
+
+IF Exists(
+    SELECT * from sysobjects 
+    where name = 'JOB_IRST' and xtype='U'
+)Drop TABLE JOB_IRST
+
 
 Create Table UserLogin(
 	id int primary Key identity,
@@ -26,6 +38,7 @@ VALUES
 ( 'user9','123123', 1, 'user9@example.com', 901234, '2021 Oakwood Rd'),
 ( 'user10','123123', 0, 'user10@example.com', 12345, '2223 Chestnut Ave');
 
+
 CREATE TABLE JOB_DETAILS (
 JOB_ID INT IDENTITY (1,1) PRIMARY KEY,
 JOB_ROLE NCHAR (20),
@@ -36,7 +49,6 @@ REQ_EXP INT,
 PLACED_EMP INT
 );
 
-SELECT * FROM JOB_DETAILS;
 
 --USER INTERSETED DB
 
@@ -45,7 +57,6 @@ JOB_ID INT,
 USER_ID INT
 );
 
-SELECT * FROM JOB_IRST;
 
 --Inserting values to the Job Values
 
@@ -60,5 +71,3 @@ VALUES ('Jr Cloud Engineer', 1000000,'VD Corp', 'Chennai', 0 ,0 ),
 ('HR Manager', 1500000,'Global Solution', 'Chennai', 6,0 ),
 ('Cloud Engineer', 1600000,'VD Corp', 'Bangalore', 3 ,0 ),
 ('Intern', 600000,'Delite', 'Bangalore', 0 ,0 );
-
-
