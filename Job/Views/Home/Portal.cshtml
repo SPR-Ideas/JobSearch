@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Job Portals";
+}
+<h1>@ViewData["Title"]</h1>
+@model  Job.Models.UserMap;
+@{
+    var jobList = ViewBag.Message[0];
+    var jobAppliedList = ViewBag.Message[1];
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Job Role</td>
+            <td>Company</td>
+            <td>Package</td>
+            <td>location</td>
+            <td>Experienced Required</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <form id="form" method="post">
+            <input type="text" hidden id="Id" value ='@ViewBag.Uid'>
+        <input type="text hidden" hidden id="JId" value=1 asp-for="JId">
+        @foreach(var job in jobList){
+            <tr>
+                <td>@job.jobRole</td>
+                <td>@job.company</td>
+                <td>@job.package</td>
+                <td>@job.location</td>
+                <td>@job.experience yrs</td>
+                @if(jobAppliedList.Contains(@job.Id)){
+                    <td><a class="btn btn-dark disabled" href="#"> Applied </a></td>
+                }
+                else{
+                    <td><a  class="btn btn-outline-primary" onclick="apply('@job.Id')" href="#" > Apply Job</a></td>
+                    
+                }
+            </tr>
+        }
+        <button id="submit" type="submit" hidden >submit</button>
+    </form>
+    </tbody>
+</table>
+<script>
+    function apply(Jid){
+        console.log("changed");
+        document.getElementById("JId").value = Jid;
+        document.getElementById('submit').click();
+
+    }
+</script>

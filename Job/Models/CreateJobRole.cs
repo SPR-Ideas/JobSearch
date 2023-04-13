@@ -29,7 +29,8 @@ namespace Job.Models
             
             catch(SqlException e){
                 Console.WriteLine(e.Message);
-            } 
+            }
+
             }
     }
 
@@ -48,6 +49,7 @@ namespace Job.Models
             
             catch(SqlException e){
                 Console.WriteLine(e.Message);
+                
             } 
         }
     }

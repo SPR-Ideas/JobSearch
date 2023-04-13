@@ -19,6 +19,7 @@ namespace Job.Models
     public class AdminModels
     {
         public List<JobDetails> JobList = new List<JobDetails>();
+        public List<int> JobIdsApplied = new List<int>();
         public void fetch (){
             try{
                 SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
@@ -39,7 +40,23 @@ namespace Job.Models
             }
             catch(Exception e){
                 Console.WriteLine(e.Message);
-            }   
+            }
+        }
+
+        public void fetchJobApplied(int Id){
+             try{
+                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                connection.Open();
+                SqlCommand command = new SqlCommand($"select * from GetAppliedJob({Id})",connection);
+
+                SqlDataReader reader =  command.ExecuteReader();
+                while(reader.Read()){
+                   JobIdsApplied.Add(reader.GetInt32(0));
+                }
+            }
+            catch(Exception e){
+                Console.WriteLine(e.Message);
+            }
         }
         }
 

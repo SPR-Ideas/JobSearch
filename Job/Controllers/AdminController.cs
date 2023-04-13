@@ -15,8 +15,8 @@ namespace Job.Controllers
         [HttpPost]
         public IActionResult Index( Login fd)
         {
-            if(fd.CheckPassword()){
-                return View("Admin");
+            if(fd.CheckPassword(1)){
+                Response.Redirect("/admin/admin");
             }
             return View();
         }
