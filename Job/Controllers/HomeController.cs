@@ -7,10 +7,10 @@ namespace Job.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IConfiguration _configuration;
+        public HomeController(IConfiguration configuration)
         {
-            _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace Job.Controllers
        [HttpPost]
         public IActionResult Index (Login lg)
         {
-            
+
             if(lg.CheckPassword(0)){
 
                 Response.Redirect("/home/portal");
@@ -34,12 +34,12 @@ namespace Job.Controllers
         public IActionResult Portal(int Id=0)
         {
             if (Id !=0){
-            AdminModels jd = new AdminModels();
+            AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             jd.fetchJobApplied(Id);
             ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied};
             return View();
-            } 
+            }
             ViewBag.Message = new List<AdminModels>();
             return View();
         }
@@ -47,12 +47,13 @@ namespace Job.Controllers
         [HttpPost]
         public IActionResult Portal(UserMap um)
         {
+            // This function Applies the job for the user.
             um.apply();
-            AdminModels jd = new AdminModels();
+            AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             jd.fetchJobApplied(um.Id);
             ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied,};
-            ViewBag.Uid = um.Id; 
+            ViewBag.Uid = um.Id;
 
             return View();
 

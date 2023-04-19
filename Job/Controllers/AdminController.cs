@@ -3,9 +3,13 @@ using Job.Models;
 
 namespace Job.Controllers
 {
-
     public class AdminController : Controller
     {
+        private readonly IConfiguration _configuration;
+        public AdminController(IConfiguration configuration){
+            _configuration = configuration;
+        }
+
         [HttpGet]
         public IActionResult Index(int Id)
         {
@@ -28,17 +32,17 @@ namespace Job.Controllers
                 DeleteJobRole jr = new DeleteJobRole();
                 jr.DeleteJob(Id);
             }
-            AdminModels jd = new AdminModels();
+            AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             ViewBag.Message = jd.JobList;
             return View();
         }
         [HttpPost]
-        
+
         public IActionResult Admin(CreateJobRole jr ){
             jr.addJob();
-            
-            AdminModels jd = new AdminModels();
+
+            AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             ViewBag.Message = jd.JobList;
 

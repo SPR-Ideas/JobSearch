@@ -19,14 +19,13 @@ namespace Job.Models
                 SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select password , isAdmin from UserLogin where username='{this.username}'",connection);
-
                 SqlDataReader reader =  command.ExecuteReader();
-
                 if(reader.Read()){
                     if(is_admin==1){
                         if (this.password == reader.GetString(0) & reader.GetBoolean(1))
                         return true;
-                    }else{
+                    }
+                    else{
                         if(this.password == reader.GetString(0) & !reader.GetBoolean(1))
                         return true;
                     }
