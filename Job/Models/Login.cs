@@ -1,14 +1,22 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+
 namespace Job.Models
 {
     public class Login
     {
         public string username { get; set; }
         public string password { get; set; }
+        private readonly IConfiguration _configuration;
+
+        public Login(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public bool CheckPassword(int is_admin=0){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select password , isAdmin from UserLogin where username='{this.username}'",connection);
 

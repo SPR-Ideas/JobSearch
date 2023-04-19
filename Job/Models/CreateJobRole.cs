@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+
 namespace Job.Models
 {
     public class CreateJobRole
     {
-            public string jobRole { get ;set;}
-            public double package {get;set;}
-            public string company {get;set;}
-            public string  location {get;set;}
-            public string experience {get;set;}
+        public string jobRole { get ;set;}
+        public double package {get;set;}
+        public string company {get;set;}
+        public string  location {get;set;}
+        public string experience {get;set;}
+        private readonly IConfiguration _configuration;
 
-            public void addJob(){
+        public CreateJobRole(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public void addJob(){
 
             try{
-                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 string cmd = "";
                 cmd += "insert into job_details values"+
@@ -37,7 +44,7 @@ namespace Job.Models
     public class DeleteJobRole{
         public void DeleteJob(int id){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 string cmd = $"Delete from job_details where job_id={id}";
                 

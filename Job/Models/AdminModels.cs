@@ -20,9 +20,16 @@ namespace Job.Models
     {
         public List<JobDetails> JobList = new List<JobDetails>();
         public List<int> JobIdsApplied = new List<int>();
+        private readonly IConfiguration _configuration;
+
+        public AdminModels(IConfiguration configuration)
+        {
+            _configuration = configuration;      
+        }
+
         public void fetch (){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select * from job_details",connection);
 
@@ -45,7 +52,7 @@ namespace Job.Models
 
         public void fetchJobApplied(int Id){
              try{
-                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 SqlCommand command = new SqlCommand($"select * from GetAppliedJob({Id})",connection);
 
