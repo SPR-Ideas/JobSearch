@@ -53,6 +53,7 @@ namespace Job.Controllers
             jd.fetchJobApplied(um.Id);
             ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied,};
             ViewBag.Uid = um.Id; 
+
             return View();
 
         }

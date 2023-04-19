@@ -22,7 +22,7 @@ namespace Job.Models
         public List<int> JobIdsApplied = new List<int>();
         public void fetch (){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select * from job_details",connection);
 
@@ -45,7 +45,7 @@ namespace Job.Models
 
         public void fetchJobApplied(int Id){
              try{
-                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
                 connection.Open();
                 SqlCommand command = new SqlCommand($"select * from GetAppliedJob({Id})",connection);
 

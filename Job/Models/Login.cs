@@ -8,7 +8,7 @@ namespace Job.Models
 
         public bool CheckPassword(int is_admin=0){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select password , isAdmin from UserLogin where username='{this.username}'",connection);
 
