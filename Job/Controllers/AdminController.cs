@@ -3,6 +3,7 @@ using Job.Models;
 
 namespace Job.Controllers
 {
+
     public class AdminController : Controller
     {
         [HttpGet]

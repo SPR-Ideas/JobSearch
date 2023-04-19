@@ -16,7 +16,7 @@ namespace Job.Models
             public void addJob(){
 
             try{
-                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
                 connection.Open();
                 string cmd = "";
                 cmd += "insert into job_details values"+
@@ -37,7 +37,7 @@ namespace Job.Models
     public class DeleteJobRole{
         public void DeleteJob(int id){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
                 connection.Open();
                 string cmd = $"Delete from job_details where job_id={id}";
                 

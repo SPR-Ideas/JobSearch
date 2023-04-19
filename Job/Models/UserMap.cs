@@ -13,7 +13,7 @@ namespace Job.Models
     
         public void apply(){
             try{
-                SqlConnection connection = new SqlConnection("Data Source=tcp:localhost,1433;User ID=user;Password=user;TrustServerCertificate=True");
+                SqlConnection connection = new SqlConnection("Data Source=LocalHost;Encrypt=False;Initial Catalog=Practice;Integrated Security=True;");
                 connection.Open();
                 string cmd = $"Insert into JOB_IRST values({this.JId},{this.Id})";
                 SqlCommand command = new SqlCommand(cmd,connection);
