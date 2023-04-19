@@ -1,20 +1,25 @@
 ﻿@{
     ViewData["Title"] = "Job Portals";
 }
-<h1>@ViewData["Title"]</h1>
 @model  Job.Models.UserMap;
 @{
     var jobList = ViewBag.Message[0];
     var jobAppliedList = ViewBag.Message[1];
+    var userId = ViewBag.Message[2];
 }
 
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name: @Html.TextBox("searchQuery")
-        <input type="submit" class="float-end" value="Search" formmethod="post" />
-    </p>
-}
+<h1>@ViewData["Title"]</h1>
+
+<div class="float-end box">
+
+<form action="/home/portal/@userId" method="post">
+        <input type="text" name="Id" id="Id" hidden value="@userId" >
+        <input type ="submit" class="float-end" value="Search" >
+        <input type="text" class="float-end" placeholder="Search" id="SearchQuery" name="SearchQuery">
+</form>
+
+</div>
+<br>
 
 <table class="table">
     <thead>
@@ -28,9 +33,9 @@
         </tr>
     </thead>
     <tbody>
-        <form id="form" method="post">
+
             <input type="text" hidden id="Id" value ='@ViewBag.Uid'>
-        <input type="text hidden" hidden id="JId" value=1 asp-for="JId">
+
         @foreach(var job in jobList){
             <tr>
                 <td>@job.jobRole</td>
@@ -42,20 +47,32 @@
                     <td><a class="btn btn-dark disabled" href="#"> Applied </a></td>
                 }
                 else{
-                    <td><a  class="btn btn-outline-primary" onclick="apply('@job.Id')" href="#" > Apply Job</a></td>
-                    
+                    <td><a  class="btn btn-outline-primary" onclick="apply('@job.Id')"> Apply Job</a></td>
+
                 }
             </tr>
         }
-        <button id="submit" type="submit" hidden >submit</button>
-    </form>
+
+    </
     </tbody>
 </table>
 <script>
     function apply(Jid){
-        console.log("changed");
-        document.getElementById("JId").value = Jid;
-        document.getElementById('submit').click();
 
-    }
+        data = {
+            "Id":parseInt('@userId'),
+            "JId": parseInt(Jid)
+        }
+
+        fetch("/home/portal",{
+            method :"PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(data)
+        }).then(response => {
+           if (response.ok) {
+            window.location.reload();
+           }
+    });}
 </script>

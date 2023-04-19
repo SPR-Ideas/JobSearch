@@ -5,6 +5,7 @@ namespace Job.Models
 {
     public class Login
     {
+        public int Id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
         private readonly IConfiguration _configuration;
@@ -18,16 +19,24 @@ namespace Job.Models
             try{
                 SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
-                SqlCommand command = new SqlCommand($"Select password , isAdmin from UserLogin where username='{this.username}'",connection);
+                SqlCommand command = new SqlCommand($"Select password , isAdmin ,id from UserLogin where username='{this.username}'",connection);
                 SqlDataReader reader =  command.ExecuteReader();
                 if(reader.Read()){
                     if(is_admin==1){
                         if (this.password == reader.GetString(0) & reader.GetBoolean(1))
-                        return true;
+                        {
+                            this.Id = reader.GetInt32(2);
+                            return true;
+                        }
+
                     }
                     else{
                         if(this.password == reader.GetString(0) & !reader.GetBoolean(1))
-                        return true;
+                        {
+                            this.Id = reader.GetInt32(2);
+                            return true;
+                        }
+
                     }
                 }
                 Console.WriteLine("Invalid Credentials");
@@ -39,5 +48,12 @@ namespace Job.Models
             return false;
         }
 
+    }
+
+    public class LoginModel{
+        public int Id {get;set;}
+        public string username {get;set;}
+
+        public string password {get;set;}
     }
 }

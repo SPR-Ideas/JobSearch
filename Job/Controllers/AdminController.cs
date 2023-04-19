@@ -18,9 +18,12 @@ namespace Job.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index( Login fd)
+        public IActionResult Index( LoginModel lg_data)
         {
-            if(fd.CheckPassword(1)){
+            Login loginInstance = new Login(_configuration);
+            loginInstance.username = lg_data.username;
+            loginInstance.password = lg_data.password;
+            if(loginInstance.CheckPassword(1)){
                 Response.Redirect("/admin/admin");
             }
             return View();
@@ -29,7 +32,7 @@ namespace Job.Controllers
         [HttpGet]
         public IActionResult Admin(int delete,int Id){
             if(delete==1 &&  Id != null){
-                DeleteJobRole jr = new DeleteJobRole();
+                DeleteJobRole jr = new DeleteJobRole(_configuration);
                 jr.DeleteJob(Id);
             }
             AdminModels jd = new AdminModels(_configuration);
@@ -39,13 +42,26 @@ namespace Job.Controllers
         }
         [HttpPost]
 
-        public IActionResult Admin(CreateJobRole jr ){
-            jr.addJob();
+        public IActionResult Admin(JobModel jr ){
+            CreateJobRole job = new CreateJobRole(_configuration);
+            job.job = jr;
+            job.addJob();
 
             AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             ViewBag.Message = jd.JobList;
 
+            return View();
+        }
+
+        public ActionResult Edit(int Id) {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(JobModel job)
+        {
+            Console.WriteLine(job.jobRole);
             return View();
         }
 

@@ -1,4 +1,4 @@
-@model Job.Models.CreateJobRole;
+@model Job.Models.JobModel;
 <h2 class="center">
     AdminPanel.
 </h2>
@@ -72,7 +72,10 @@
                 <td>@job.package</td>
                 <td>@job.location</td>
                 <td>@job.experience yrs</td>
-                <td><a class="btn btn-outline-danger" href="?delete=1&id=@job.Id"> Delete</a></td>
+                <td>
+                    <a class="btn btn-outline-primary" href="/admin/edit/@job.Id"> Edit</a>
+                    <a class="btn btn-outline-danger" href="?delete=1&id=@job.Id"> Delete</a>
+                 </td>
             </tr>
         }
     </tbody>

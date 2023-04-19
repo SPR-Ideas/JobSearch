@@ -1,4 +1,4 @@
-﻿using System.Reflection.Metadata;
+﻿
 using Job.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -20,12 +20,14 @@ namespace Job.Controllers
         }
 
        [HttpPost]
-        public IActionResult Index (Login lg)
+        public IActionResult Index (LoginModel lg_data)
         {
+            Login loginInstance = new Login(_configuration);
+            loginInstance.username = lg_data.username;
+            loginInstance.password = lg_data.password;
+            if(loginInstance.CheckPassword(0)){
 
-            if(lg.CheckPassword(0)){
-
-                Response.Redirect("/home/portal");
+                Response.Redirect("/home/portal/"+loginInstance.Id);
             }
             return View();
         }
@@ -37,26 +39,35 @@ namespace Job.Controllers
             AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             jd.fetchJobApplied(Id);
-            ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied};
+
+            ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied,Id};
             return View();
             }
-            ViewBag.Message = new List<AdminModels>();
+            ViewBag.Message = new List<AdminModels>{new AdminModels(_configuration),new AdminModels(_configuration)};
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Portal(UserMap um)
+        [HttpPut]
+        public IActionResult Portal([FromBody] UserMap um)
         {
             // This function Applies the job for the user.
             um.apply();
             AdminModels jd = new AdminModels(_configuration);
             jd.fetch();
             jd.fetchJobApplied(um.Id);
-            ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied,};
+            ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied,um.Id};
             ViewBag.Uid = um.Id;
-
             return View();
+        }
 
+        [HttpPost]
+        public IActionResult Portal(JobSearch Data){
+            AdminModels jd = new AdminModels(_configuration);
+            jd.fetchJobByString(Data.SearchQuery);
+            jd.fetchJobApplied(Data.Id);
+            Console.WriteLine(Data.Id);
+            ViewBag.Message = new List<object> {jd.JobList,jd.JobIdsApplied,Data.Id};
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -65,4 +76,5 @@ namespace Job.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }

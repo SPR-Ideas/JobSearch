@@ -13,7 +13,7 @@ namespace Job.Models
         public string company;
         public string location;
         public int experience;
-        
+
     }
 
     public class AdminModels
@@ -24,7 +24,7 @@ namespace Job.Models
 
         public AdminModels(IConfiguration configuration)
         {
-            _configuration = configuration;      
+            _configuration = configuration;
         }
 
         public void fetch (){
@@ -32,6 +32,31 @@ namespace Job.Models
                 SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select * from job_details",connection);
+
+                SqlDataReader reader =  command.ExecuteReader();
+                while(reader.Read()){
+                    JobDetails jd = new JobDetails();
+                    jd.Id = reader.GetInt32(0);
+                    jd.jobRole = reader.GetString(1);
+                    jd.package = reader.GetDouble(2);
+                    jd.company = reader.GetString(3);
+                    jd.location = reader.GetString(4);
+                    jd.experience = reader.GetInt32(5);
+                    JobList.Add(jd);
+                }
+            }
+            catch(Exception e){
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void fetchJobByString(string query){
+            try{
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
+                connection.Open();
+                SqlCommand command = new SqlCommand(
+                    $"Select * from job_details where JOB_ROLE like '{query}%' or CMPY_NAME like '{query}%'",
+                    connection);
 
                 SqlDataReader reader =  command.ExecuteReader();
                 while(reader.Read()){
