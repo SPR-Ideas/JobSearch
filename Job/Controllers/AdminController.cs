@@ -43,11 +43,12 @@ namespace Job.Controllers
         [HttpPost]
 
         public IActionResult Admin(JobModel jr ){
+
             CreateJobRole job = new CreateJobRole(_configuration);
             job.job = jr;
             job.addJob();
-
             AdminModels jd = new AdminModels(_configuration);
+
             jd.fetch();
             ViewBag.Message = jd.JobList;
 
@@ -55,6 +56,10 @@ namespace Job.Controllers
         }
 
         public ActionResult Edit(int Id) {
+            ViewBag.id = Id;
+            CreateJobRole jr = new CreateJobRole(_configuration);
+            jr.getJob(Id);
+            ViewBag.job = jr.job;
             return View();
         }
 
@@ -62,7 +67,11 @@ namespace Job.Controllers
         public ActionResult Edit(JobModel job)
         {
             Console.WriteLine(job.jobRole);
-            return View();
+            CreateJobRole jr = new CreateJobRole(_configuration);
+            jr.job = job;
+            
+            jr.updateJob(job.Id);
+            return RedirectToAction("admin");
         }
 
     }

@@ -4,6 +4,7 @@
 </h2>
 @{
     var jobList = ViewBag.Message;
+    var job = ViewBag.job;
 }
 
 <div class="cols-3 offset-9 ">
@@ -23,7 +24,7 @@
         <div class="modal-body">
             <form action="" method="post">                <div class="form-group">
                   <label for="jobrole">Job Role:</label>
-                  <input type="text" class="form-control" id="jobrole" placeholder="Enter job role" asp-for="jobRole">
+                  <input type="text" class="form-control" id="jobrole" value="@job." placeholder="Enter job role" asp-for="jobRole">
                 </div>
                 <div class="form-group">
                   <label for="company">Company:</label>
@@ -65,16 +66,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var job in jobList){
+        @foreach(var _job in jobList){
             <tr>
-                <td>@job.jobRole</td>
-                <td>@job.company</td>
-                <td>@job.package</td>
-                <td>@job.location</td>
-                <td>@job.experience yrs</td>
+                <td>@_job.jobRole</td>
+                <td>@_job.company</td>
+                <td>@_job.package</td>
+                <td>@_job.location</td>
+                <td>@_job.experience yrs</td>
                 <td>
-                    <a class="btn btn-outline-primary" href="/admin/edit/@job.Id"> Edit</a>
-                    <a class="btn btn-outline-danger" href="?delete=1&id=@job.Id"> Delete</a>
+                    <a class="btn btn-outline-primary" href="/admin/edit/@_job.Id"> Edit</a>
+                    <a class="btn btn-outline-danger" href="?delete=1&id=@_job.Id"> Delete</a>
                  </td>
             </tr>
         }

@@ -35,6 +35,52 @@ namespace Job.Models
             }
 
             }
+        public void getJob(int id) {
+            try
+            {
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
+                connection.Open();
+                string cmd = $"Select * from job_details where job_id={id}";
+                    
+
+                SqlCommand command = new SqlCommand(cmd, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    job.Id = reader.GetInt32(0);
+                    job.jobRole = reader.GetString(1);
+                    job.package = reader.GetDouble(2);
+                    job.company = reader.GetString(3);
+                    job.location = reader.GetString(4);
+                    job.experience = reader.GetInt32(5);
+                }
+                connection.Close();
+            }
+
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void updateJob(int id){
+             try{
+                SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localdb"));
+                connection.Open();
+                string cmd = "";
+                cmd += "Update  job_details set"+
+                        $" JOB_ROLE='{job.jobRole}',SALARY_PCK={job.package},CMPY_NAME='{job.company}',CMPY_LOCATION='{job.location}',REQ_EXP={job.experience}"
+                        +$"where JOB_ID ={id}";
+                SqlCommand command = new SqlCommand(cmd,connection);
+                int row = command.ExecuteNonQuery();
+                if(row==1){Console.WriteLine("Job Added");}
+                connection.Close();
+                }
+
+            catch(SqlException e){
+                Console.WriteLine(e.Message);
+            }
+
+        }
     }
 
     public class DeleteJobRole{
@@ -65,11 +111,12 @@ namespace Job.Models
         public string SearchQuery {get;set;}
     }
     public class JobModel{
+        public int Id {get;set;}
         public string jobRole { get ;set;}
         public double package {get;set;}
         public string company {get;set;}
         public string  location {get;set;}
-        public string experience {get;set;}
+        public int experience {get;set;}
     }
 
 }
